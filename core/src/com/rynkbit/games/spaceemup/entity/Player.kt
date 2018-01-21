@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.rynkbit.games.spaceemup.Explosion
+import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.laser.Laser
 import com.rynkbit.games.spaceemup.entity.laser.PlayerLaser
 import java.util.*
@@ -37,6 +38,8 @@ class Player: SpriteActor {
         rotateBy(270.toFloat())
 
         laserSound = Gdx.audio.newSound(Gdx.files.internal("Sound/sfx_laser1.ogg"))
+
+        sprite.texture = MemoryStorage.instance.selectedSkin.sprite.texture
     }
 
     override fun act(delta: Float) {

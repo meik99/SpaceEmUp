@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.rynkbit.games.spaceemup.Game
+import com.rynkbit.games.spaceemup.GameParams
 import com.rynkbit.games.spaceemup.PlayerLives
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.Enemy
@@ -19,7 +20,8 @@ import java.util.*
 /**
  * Created by michael on 12.01.18.
  */
-class GameStage(val game: Game) : Stage(StretchViewport(1920.toFloat(), 1080.toFloat())) {
+class GameStage(val game: Game) : Stage(StretchViewport(
+        GameParams.VIEWPORT_WIDTH, GameParams.VIEWPORT_HEIGHT)) {
     private val player: Player
     private val random: Random
     private val playerLives: PlayerLives
@@ -104,8 +106,6 @@ class GameStage(val game: Game) : Stage(StretchViewport(1920.toFloat(), 1080.toF
     }
 
     override fun draw(){
-        act(Gdx.graphics.deltaTime)
-
         super.draw()
 
         if(batch != null){

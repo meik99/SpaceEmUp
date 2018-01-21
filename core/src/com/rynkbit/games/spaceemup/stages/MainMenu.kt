@@ -8,15 +8,16 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.rynkbit.games.spaceemup.Game
+import com.rynkbit.games.spaceemup.GameParams
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 
 /**
  * Created by michael on 15.01.18.
  */
-class MainMenu(val game: Game) : Stage(StretchViewport(1920f, 1080f)) {
+class MainMenu(val game: Game) : Stage(StretchViewport(
+        GameParams.VIEWPORT_WIDTH, GameParams.VIEWPORT_HEIGHT)) {
 
     val generator: FreeTypeFontGenerator
     val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
@@ -57,7 +58,6 @@ class MainMenu(val game: Game) : Stage(StretchViewport(1920f, 1080f)) {
                         buttonBlue.height * buttonBlue.scaleY -
                         20
         buttonRed.scale(2.toFloat())
-
 
 
 
@@ -113,7 +113,7 @@ class MainMenu(val game: Game) : Stage(StretchViewport(1920f, 1080f)) {
 
             textBitmap.draw(
                     batch,
-                    "Exit",
+                    "Skins",
                     buttonRed.x - buttonRed.width / 2,
                     buttonRed.y + buttonRed.height * buttonRed.scaleY / 4
             )
@@ -136,8 +136,9 @@ class MainMenu(val game: Game) : Stage(StretchViewport(1920f, 1080f)) {
         if(buttonBlue.boundingRectangle.contains(pointX, pointY)){
             game.setStage(GameStage(game))
         }
+
         else if(buttonRed.boundingRectangle.contains(pointX, pointY)){
-            Gdx.app.exit()
+            game.setStage(SkinStage(game))
         }
 
         return super.touchDown(screenX, screenY, pointer, button)

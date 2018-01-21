@@ -12,6 +12,7 @@ class UTurn: Movement{
 
     private var time: Double = 1.toDouble()
     private var x0: Double = 0.toDouble()
+    private var prefix: Int = 1
 
     private var doCircle: Boolean = false
     private var reverse: Boolean = false
@@ -36,11 +37,15 @@ class UTurn: Movement{
                 reverse = true
             }
 
-            spriteActor.y -= ((accaleration * time)).toFloat()
+
+            spriteActor.y -= ((accaleration * time)).toFloat() * prefix
         }
 
         if(reverse == false && doCircle == false && spriteActor.x <= spriteActor.stage.camera.viewportWidth / 2){
             doCircle = true
+            if(spriteActor.y < spriteActor.stage.camera.viewportHeight / 2){
+                prefix = -1
+            }
         }
 
     }
