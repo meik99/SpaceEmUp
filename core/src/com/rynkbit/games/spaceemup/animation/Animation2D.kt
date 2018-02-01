@@ -1,38 +1,28 @@
-package com.rynkbit.games.spaceemup
+package com.rynkbit.games.spaceemup.animation
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.Array
-import java.lang.IllegalStateException
 
-/**
- * Created by michael on 14.01.18.
- */
-class Explosion{
-    companion object {
-        val FRAME_COLS = 8
-        val FRAME_ROWS = 8
-        val TEXTURE = Texture("Effects/explosion.png")
-    }
 
+open class Animation2D(val texture: Texture, frameCols: Int, frameRows: Int){
     val animation: Animation<TextureRegion>
     var stateTime: Double
 
     init {
         val tmpTextureRegion = TextureRegion.split(
-                TEXTURE,
-                TEXTURE.width / FRAME_COLS,
-                TEXTURE.height / FRAME_ROWS
+                texture,
+                texture.width / frameCols,
+                texture.height / frameRows
         )
 
-        val frames: Array<TextureRegion> = Array(FRAME_COLS* FRAME_ROWS)
+        val frames: Array<TextureRegion> = Array(frameCols * frameRows)
 
-        for(row in 0..(FRAME_ROWS-1)){
-            for(col in 0..(FRAME_COLS-1)){
+        for(row in 0..(frameRows -1)){
+            for(col in 0..(frameCols -1)){
                 frames.add(tmpTextureRegion.get(row).get(col))
             }
         }
@@ -42,8 +32,8 @@ class Explosion{
     }
 
     fun render(batch: Batch, x: Float, y:Float,
-               width: Float = TEXTURE.width.toFloat(),
-               height: Float = TEXTURE.height.toFloat()){
+               width: Float = texture.width.toFloat(),
+               height: Float = texture.height.toFloat()){
         stateTime += Gdx.graphics.deltaTime
 
         val currentFrame = animation.getKeyFrame(stateTime.toFloat(), false)

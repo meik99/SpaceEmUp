@@ -5,15 +5,12 @@ import com.badlogic.gdx.audio.Sound
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.Player
 
-/**
- * Created by michael on 14.01.18.
- */
-class EnemyLaser: Laser{
+class EnemyLaser() : Laser(laserRed01) {
     companion object {
         val looseLifeSound: Sound = Gdx.audio.newSound(Gdx.files.internal("Sound/sfx_shieldDown.ogg"))
     }
 
-    constructor() :super(laserRed01){
+    init {
         rotateBy(90.toFloat())
         acceleration = 20.toDouble()
     }
@@ -25,12 +22,10 @@ class EnemyLaser: Laser{
 
         for (actor in stage.actors){
             if(actor is Player){
-                val player = actor as Player
-
-                if(player.boundingRectangle.overlaps(boundingRectangle)){
-                    player.lives--
+                if(actor.boundingRectangle.overlaps(boundingRectangle)){
+                    actor.shot()
+                    disposable = true
                     looseLifeSound.play(1.0f)
-                    stage.actors.removeValue(this, true)
                 }
             }
         }

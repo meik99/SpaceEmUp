@@ -7,19 +7,18 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.rynkbit.games.spaceemup.Disposable
 import com.rynkbit.games.spaceemup.Game
 import com.rynkbit.games.spaceemup.GameParams
 import com.rynkbit.games.spaceemup.PlayerLives
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.Enemy
 import com.rynkbit.games.spaceemup.entity.Player
+import com.rynkbit.games.spaceemup.entity.ShootableEntity
 import com.rynkbit.games.spaceemup.entity.movement.UTurn
 import com.rynkbit.games.spaceemup.entity.movement.ZickZack
 import java.util.*
 
-/**
- * Created by michael on 12.01.18.
- */
 class GameStage(val game: Game) : Stage(StretchViewport(
         GameParams.VIEWPORT_WIDTH, GameParams.VIEWPORT_HEIGHT)) {
     private val player: Player
@@ -56,18 +55,9 @@ class GameStage(val game: Game) : Stage(StretchViewport(
     override fun act(delta: Float) {
         super.act(delta)
 
-        actors.removeAll({
-            if (it is Enemy) {
-                val enemy = it as Enemy
-                enemy.disposeable
-            }else if(it is Player){
-                val player = it as Player
-                player.disposeable
-            }
-            else false
-        })
+        actors.removeAll {it is Disposable && it.disposable}
 
-        if(player.disposeable){
+        if(player.disposable){
             game.setStage(MainMenu(game))
         }
 
@@ -99,10 +89,6 @@ class GameStage(val game: Game) : Stage(StretchViewport(
 
             date = Date()
         }
-    }
-
-    private fun resetGame() {
-        player.reset()
     }
 
     override fun draw(){

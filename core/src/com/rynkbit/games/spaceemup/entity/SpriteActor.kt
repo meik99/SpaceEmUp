@@ -6,12 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Actor
 
-/**
- * Created by michael on 12.01.18.
- */
-open class SpriteActor: Actor {
-
-    private val texture: Texture
+open class SpriteActor(texture: Texture) : Actor() {
 
     val sprite: Sprite
 
@@ -19,11 +14,8 @@ open class SpriteActor: Actor {
         get() = Rectangle(x, y, width, height)
 
 
-    constructor(texture: Texture):
-            super(){
-        this.texture = texture
+    init {
         this.sprite = Sprite(texture)
-
         x = 0.toFloat()
         y = 0.toFloat()
         width = sprite.width
@@ -39,6 +31,8 @@ open class SpriteActor: Actor {
         super.draw(batch, parentAlpha)
 
         if(batch != null) {
+            val oldColor = batch.color
+            batch.color = color
             batch.draw(
                     sprite.texture,
                     x,
@@ -57,6 +51,7 @@ open class SpriteActor: Actor {
                     sprite.isFlipX,
                     sprite.isFlipY
             )
+            batch.color = oldColor
         }
     }
 }

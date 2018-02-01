@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.rynkbit.games.spaceemup.entity.SpriteActor
 
-/**
- * Created by michael on 19.01.18.
- */
 class Button(texture: Texture): SpriteActor(texture){
 
     companion object {
@@ -41,7 +38,7 @@ class Button(texture: Texture): SpriteActor(texture){
         }
         get() = parameter.color
 
-    var offsetX: Int = 20
+    var textOffset: Int = 20
 
     private var font: BitmapFont
     private var glyphLayout: GlyphLayout = GlyphLayout()
@@ -57,18 +54,12 @@ class Button(texture: Texture): SpriteActor(texture){
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         if(batch != null){
-            batch.draw(
-                    sprite,
-                    x,
-                    y,
-                    width * scaleX,
-                    height * scaleY
-            )
+            super.draw(batch, parentAlpha)
 
             font.draw(
                     batch,
                     glyphLayout,
-                    x + offsetX,
+                    x + textOffset,
                     y + height * scaleY / 2 + glyphLayout.height / 2
             )
         }

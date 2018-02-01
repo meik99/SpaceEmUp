@@ -3,11 +3,9 @@ package com.rynkbit.games.spaceemup.entity.laser
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.Enemy
 
-/**
- * Created by michael on 14.01.18.
- */
-class PlayerLaser: Laser{
-    constructor(): super(laserBlue01){
+class PlayerLaser() : Laser(laserBlue01) {
+
+    init {
         rotateBy(270.toFloat())
     }
 
@@ -20,14 +18,12 @@ class PlayerLaser: Laser{
 
         for (actor in actors){
             if(actor is Enemy){
-                val enemy = actor as Enemy
+                if(boundingRectangle.overlaps(actor.boundingRectangle)){
+                    actor.shot()
+                    disposable = true
 
-                if(boundingRectangle.overlaps(enemy.boundingRectangle)){
-                    enemy.lives--
-                    stage.actors.removeValue(this, true)
-
-                    if(enemy.alive == false){
-                        MemoryStorage.instance.money += enemy.moneyValue
+                    if(actor.alive == false){
+                        MemoryStorage.instance.money += actor.moneyValue
                     }
                 }
             }
