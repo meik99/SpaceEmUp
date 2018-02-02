@@ -5,16 +5,15 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.rynkbit.games.spaceemup.Disposable
 import com.rynkbit.games.spaceemup.Game
 import com.rynkbit.games.spaceemup.GameParams
 import com.rynkbit.games.spaceemup.PlayerLives
+import com.rynkbit.games.spaceemup.data.FontMap
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.Enemy
 import com.rynkbit.games.spaceemup.entity.Player
-import com.rynkbit.games.spaceemup.entity.ShootableEntity
 import com.rynkbit.games.spaceemup.entity.movement.UTurn
 import com.rynkbit.games.spaceemup.entity.movement.ZickZack
 import java.util.*
@@ -25,9 +24,9 @@ class GameStage(val game: Game) : Stage(StretchViewport(
     private val random: Random
     private val playerLives: PlayerLives
 
-    private val generator: FreeTypeFontGenerator
-    private val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
-    private val uiFont: BitmapFont
+//    private val generator: FreeTypeFontGenerator
+//    private val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
+    private val whiteTextFont: BitmapFont
 
     private var date: Date
     private var timeToEnemy: Int
@@ -42,14 +41,14 @@ class GameStage(val game: Game) : Stage(StretchViewport(
         addActor(playerLives)
         Gdx.input.inputProcessor = this
 
-        generator = FreeTypeFontGenerator(
-                Gdx.files.internal("kenvector_future.ttf")
-        )
-        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
+//        generator = FreeTypeFontGenerator(
+//                Gdx.files.internal("kenvector_future.ttf")
+//        )
+//        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
+//
+//        parameter.size = 60
 
-        parameter.size = 60
-
-        uiFont = generator.generateFont(parameter)
+        whiteTextFont = FontMap.whiteTextFont
     }
 
     override fun act(delta: Float) {
@@ -96,9 +95,9 @@ class GameStage(val game: Game) : Stage(StretchViewport(
 
         if(batch != null){
             batch.begin()
-            uiFont.draw(
+            whiteTextFont.draw(
                     batch,
-                    "Money: ${MemoryStorage.instance.money}",
+                    "Money: ${MemoryStorage.money}",
                     playerLives.x +
                             playerLives.width * (player.lives+1) +
                             playerLives.offset * (player.lives+1) + 20,

@@ -22,7 +22,7 @@ class Player() : ShootableEntity(Texture("playerShip1_green.png"), Explosion()) 
         laser = mutableListOf()
         rotateBy(270.toFloat())
         laserSound = Gdx.audio.newSound(Gdx.files.internal("Sound/sfx_laser1.ogg"))
-        sprite.texture = MemoryStorage.instance.selectedSkin.sprite.texture
+        sprite.texture = MemoryStorage.selectedSkin.sprite.texture
     }
 
     override fun act(delta: Float) {

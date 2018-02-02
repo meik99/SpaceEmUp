@@ -27,17 +27,17 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		Preferences preferences = Gdx.app.getPreferences("savegame");
-		MemoryStorage.getInstance().setMoney(
+		MemoryStorage.INSTANCE.setMoney(
 				preferences.getInteger("money")
 		);
 
-		for (Skin skin : SkinMap.Companion.getInstance().getSkins()){
+		for (Skin skin : SkinMap.INSTANCE.getSkins()){
 			skin.setBought(
 					preferences.getBoolean(skin.getSkinName())
 			);
 
 			if(preferences.getString("selectedSkin").equals(skin.getSkinName())){
-				MemoryStorage.getInstance().setSelectedSkin(skin);
+				MemoryStorage.INSTANCE.setSelectedSkin(skin);
 			}
 		}
 
@@ -72,10 +72,10 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void pause() {
 		Preferences preferences = Gdx.app.getPreferences("savegame");
-		preferences.putInteger("money", MemoryStorage.getInstance().getMoney());
-		preferences.putString("selectedSkin", MemoryStorage.getInstance().getSelectedSkin().getSkinName());
+		preferences.putInteger("money", MemoryStorage.INSTANCE.getMoney());
+		preferences.putString("selectedSkin", MemoryStorage.INSTANCE.getSelectedSkin().getSkinName());
 
-		for (Skin skin : SkinMap.Companion.getInstance().getSkins()){
+		for (Skin skin : SkinMap.INSTANCE.getSkins()){
 			preferences.putBoolean(skin.getSkinName(), skin.getBought());
 		}
 

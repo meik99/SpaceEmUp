@@ -23,7 +23,7 @@ class PlayerLaser() : Laser(laserBlue01) {
                     disposable = true
 
                     if(actor.alive == false){
-                        MemoryStorage.instance.money += actor.moneyValue
+                        MemoryStorage.money += actor.moneyValue
                     }
                 }
             }

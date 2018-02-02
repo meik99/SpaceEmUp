@@ -9,12 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.rynkbit.games.spaceemup.Game
 import com.rynkbit.games.spaceemup.GameParams
+import com.rynkbit.games.spaceemup.data.FontMap
 import com.rynkbit.games.spaceemup.data.MemoryStorage
-import com.rynkbit.games.spaceemup.entity.Player
 import com.rynkbit.games.spaceemup.skin.SkinMap
 import com.rynkbit.games.spaceemup.ui.Button
 import com.rynkbit.games.spaceemup.ui.transform
-import sun.applet.Main
 import java.util.*
 
 /**
@@ -28,28 +27,19 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
 
     private val btnBack: Button
 
-    private val generator: FreeTypeFontGenerator
-    private val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
-    private val font: BitmapFont
+    private val whiteTextFont: BitmapFont
 
     init {
         Gdx.input.inputProcessor = this
 
-        generator = FreeTypeFontGenerator(Gdx.files.internal("kenvector_future.ttf"))
-        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
-        parameter.size = 60
-        parameter.color = Color.WHITE
-        font = generator.generateFont(parameter)
+        whiteTextFont = FontMap.whiteTextFont
 
-        for ((index, skin) in SkinMap.instance.skins.withIndex()){
+        for ((index, skin) in SkinMap.skins.withIndex()){
             val button: Button = Button(Texture("UI/buttonBlue.png"))
-
-            button.parameterSize  = 60
-            button.parameterColor = Color.BLACK
 
             button.text =
                     if (skin.bought == true)
-                        if(skin != MemoryStorage.instance.selectedSkin )
+                        if(skin != MemoryStorage.selectedSkin )
                             "Select"
                         else
                             "Selected"
@@ -79,19 +69,17 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
         btnBack.y = 20.toFloat()
         btnBack.width = btnBack.sprite.width * 2
         btnBack.height = btnBack.sprite.height * 2
-        btnBack.parameterSize  = 60
-        btnBack.parameterColor = Color.BLACK
 
         addActor(btnBack)
     }
 
     override fun act(delta: Float) {
         for ((index, button) in skinBuyButtons.withIndex()){
-            val skin = SkinMap.instance.skins[index]
+            val skin = SkinMap.skins[index]
 
             button.text =
                     if (skin.bought == true)
-                        if(skin != MemoryStorage.instance.selectedSkin )
+                        if(skin != MemoryStorage.selectedSkin )
                             "Select"
                         else
                             "Selected"
@@ -106,9 +94,9 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
 
         if(batch != null){
             batch.begin()
-            font.draw(
+            whiteTextFont.draw(
                     batch,
-                    "Money: ${MemoryStorage.instance.money}",
+                    "Money: ${MemoryStorage.money}",
                     20.toFloat(),
                     camera.viewportHeight - 20.toFloat()
             )
@@ -121,19 +109,19 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
 
         for((index, button) in skinBuyButtons.withIndex()){
             if(button.boundingRectangle.contains(pointX, pointY)){
-                if(MemoryStorage.instance.money >= SkinMap.instance.skins[index].value &&
-                    SkinMap.instance.skins[index].bought == false) {
+                if(MemoryStorage.money >= SkinMap.skins[index].value &&
+                    SkinMap.skins[index].bought == false) {
 
-                    MemoryStorage.instance.money -= SkinMap.instance.skins[index].value
-                    SkinMap.instance.skins[index].bought = true
-                    MemoryStorage.instance.selectedSkin =
-                            SkinMap.instance.skins[index]
+                    MemoryStorage.money -= SkinMap.skins[index].value
+                    SkinMap.skins[index].bought = true
+                    MemoryStorage.selectedSkin =
+                            SkinMap.skins[index]
 
 //                    game.setStage(MainMenu(game))
                 }
-                else if(SkinMap.instance.skins[index].bought == true){
-                    MemoryStorage.instance.selectedSkin =
-                            SkinMap.instance.skins[index]
+                else if(SkinMap.skins[index].bought == true){
+                    MemoryStorage.selectedSkin =
+                            SkinMap.skins[index]
 
 //                    game.setStage(MainMenu(game))
                 }
@@ -161,7 +149,7 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
                 skinBuyButtons.last().x + skinBuyButtons.last().width - deltaX > 0){
             for((index, button) in skinBuyButtons.withIndex()) {
                 button.x -= deltaX
-                SkinMap.instance.skins[index].x -= deltaX
+                SkinMap.skins[index].x -= deltaX
 
             }
         }

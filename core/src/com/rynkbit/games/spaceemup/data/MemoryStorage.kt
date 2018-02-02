@@ -6,15 +6,7 @@ import com.rynkbit.games.spaceemup.skin.SkinMap
 /**
  * Created by michael on 17.01.18.
  */
-class MemoryStorage{
-    companion object {
-        @JvmStatic val instance = MemoryStorage()
-    }
-
+object MemoryStorage{
     var money: Int = 0
-    var selectedSkin: Skin
-
-    init {
-        selectedSkin = SkinMap.instance.skins.first()
-    }
+    var selectedSkin: Skin = SkinMap.skins.first()
 }

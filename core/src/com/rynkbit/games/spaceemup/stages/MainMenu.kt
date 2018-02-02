@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.rynkbit.games.spaceemup.Game
 import com.rynkbit.games.spaceemup.GameParams
+import com.rynkbit.games.spaceemup.data.FontMap
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 
 /**
@@ -19,11 +20,11 @@ import com.rynkbit.games.spaceemup.data.MemoryStorage
 class MainMenu(val game: Game) : Stage(StretchViewport(
         GameParams.VIEWPORT_WIDTH, GameParams.VIEWPORT_HEIGHT)) {
 
-    val generator: FreeTypeFontGenerator
-    val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
-    val headerBitmap: BitmapFont
-    val textBitmap: BitmapFont
-    val textWhiteBitmap: BitmapFont
+//    val generator: FreeTypeFontGenerator
+//    val parameter: FreeTypeFontGenerator.FreeTypeFontParameter
+    val headerFont: BitmapFont
+    val blackTextFont: BitmapFont
+    val whiteTextFont: BitmapFont
 
     val buttonBlueTexture: Texture
     val buttonGreenTexture: Texture
@@ -61,25 +62,24 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
 
 
 
-        generator = FreeTypeFontGenerator(Gdx.files.internal("kenvector_future.ttf"))
-        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
+//        generator = FreeTypeFontGenerator(Gdx.files.internal("kenvector_future.ttf"))
+//        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
+//
+//        parameter.size = 120
 
-        parameter.size = 120
+        headerFont = FontMap.whiteHeadlineFont
 
-        headerBitmap = generator.generateFont(parameter)
+//        parameter.size = 60
+//        parameter.color = Color.BLACK
 
-        parameter.size = 60
-        parameter.color = Color.BLACK
+        blackTextFont = FontMap.blackTextFont
+//        parameter.color = Color.WHITE
 
-        textBitmap = generator.generateFont(parameter)
+        whiteTextFont = FontMap.whiteTextFont
 
-        parameter.color = Color.WHITE
+//        generator.dispose()
 
-        textWhiteBitmap = generator.generateFont(parameter)
-
-        generator.dispose()
-
-        titleText = GlyphLayout(headerBitmap, "Space Em Up!")
+        titleText = GlyphLayout(headerFont, "Space Em Up!")
     }
 
 
@@ -97,30 +97,30 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
             buttonBlue.draw(batch)
             buttonRed.draw(batch)
 
-            headerBitmap.draw(
+            headerFont.draw(
                     batch,
                     titleText,
                     (viewport.camera.viewportWidth).toFloat() - titleText.width,
                     (viewport.camera.viewportHeight - titleText.height).toFloat()
             )
 
-            textBitmap.draw(
+            blackTextFont.draw(
                     batch,
                     "Start Game",
                     buttonBlue.x - buttonBlue.width / 2,
                     buttonBlue.y + buttonBlue.height * buttonBlue.scaleY / 4
             )
 
-            textBitmap.draw(
+            blackTextFont.draw(
                     batch,
                     "Skins",
                     buttonRed.x - buttonRed.width / 2,
                     buttonRed.y + buttonRed.height * buttonRed.scaleY / 4
             )
 
-            textWhiteBitmap.draw(
+            whiteTextFont.draw(
                     batch,
-                    "Money: ${MemoryStorage.instance.money}",
+                    "Money: ${MemoryStorage.money}",
                     buttonBlue.x - buttonBlue.width,
                     60.toFloat()
             )

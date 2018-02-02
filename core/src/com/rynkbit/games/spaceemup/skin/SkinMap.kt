@@ -1,44 +1,48 @@
 package com.rynkbit.games.spaceemup.skin
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 
 /**
  * Created by michael on 19.01.18.
  */
-class SkinMap private constructor(){
-    companion object {
-        val instance: SkinMap by lazy { SkinMap() }
-    }
+object SkinMap{
+    private val baseName: String = "playerShip{0}_{1}.png"
+    private val colors: Array<String> = arrayOf(
+            "blue", "green", "orange", "red"
+    )
+
+
+    private val _skins: MutableList<Skin> = mutableListOf()
 
     val skins: MutableList<Skin>
+        get() {
+            if(_skins.size == 0){
+                init()
+            }
+            return _skins
+        }
 
-    init {
-        skins = mutableListOf()
 
-        val files = Gdx.files.internal("").list()
-        var counter = 0
+    private fun init() {
 
-
-        for(file in files){
-            if(file != null){
-                if (file.isDirectory == false &&
-                        file.name().contains("playerShip")){
-                    val filename = file.name()
-
-                    if(filename != null){
-                        val skinename = filename.removeSuffix(".png").removePrefix("/")
-                        val skinBuilder = SkinBuilder()
-                        val skin = skinBuilder
-                                .setName(skinename)
-                                .setBought(counter == 0)
-                                .setTexture(file.path().removePrefix("/"))
-                                .setValue(500*counter++)
-                                .build()
-
-                        skins.add(skin)
-                    }
-                }
+        for(i in 1..3){
+            for((index, color) in colors.withIndex()){
+                val skinBuilder = SkinBuilder()
+                _skins.add(skinBuilder
+                        .setName(color.capitalize())
+                        .setValue(i*index*500)
+                        .setTexture(getFileName(i, color))
+                        .setBought(i*index == 0)
+                        .build())
             }
         }
+    }
+
+    private fun getFileName(index: Int, color: String): String{
+        return baseName
+                .replace("{0}", index.toString())
+                .replace("{1}", color)
+
     }
 }
