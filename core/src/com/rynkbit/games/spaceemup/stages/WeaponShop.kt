@@ -171,7 +171,7 @@ class WeaponShop(val game: Game): Stage(StretchViewport(
             }
         }
         else if(buttonBuyTriple.boundingRectangle.contains(pointX, pointY)){
-            if(MemoryStorage.fireBought[2] == false && MemoryStorage.money >= 5000){
+            if(MemoryStorage.fireBought[2] == false && MemoryStorage.money >= 5000){ 
                 MemoryStorage.money -= 5000
                 MemoryStorage.fireBought[2] = true
                 MemoryStorage.laserGenerator = TripleFire()
