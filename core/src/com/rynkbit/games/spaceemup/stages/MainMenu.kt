@@ -33,6 +33,7 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
 
     val buttonBlue: Sprite
     val buttonRed: Sprite
+    val buttonGreen: Sprite
 
     val titleText: GlyphLayout
 
@@ -46,6 +47,7 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
 
         buttonBlue = Sprite(buttonBlueTexture)
         buttonRed = Sprite(buttonRedTexture)
+        buttonGreen = Sprite(buttonGreenTexture)
 
         buttonBlue.x = 250.toFloat()
         buttonBlue.y = camera.viewportHeight - 300.toFloat() - buttonBlueTexture.height * 3.toFloat()
@@ -60,24 +62,15 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
                         20
         buttonRed.scale(2.toFloat())
 
-
-
-//        generator = FreeTypeFontGenerator(Gdx.files.internal("kenvector_future.ttf"))
-//        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
-//
-//        parameter.size = 120
+        buttonGreen.x = 250.toFloat()
+        buttonGreen.y =
+                buttonRed.y -
+                buttonRed.height * buttonRed.scaleY - 20
+        buttonGreen.scale(2.toFloat())
 
         headerFont = FontMap.whiteHeadlineFont
-
-//        parameter.size = 60
-//        parameter.color = Color.BLACK
-
         blackTextFont = FontMap.blackTextFont
-//        parameter.color = Color.WHITE
-
         whiteTextFont = FontMap.whiteTextFont
-
-//        generator.dispose()
 
         titleText = GlyphLayout(headerFont, "Space Em Up!")
     }
@@ -96,6 +89,7 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
 
             buttonBlue.draw(batch)
             buttonRed.draw(batch)
+            buttonGreen.draw(batch)
 
             headerFont.draw(
                     batch,
@@ -117,6 +111,12 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
                     buttonRed.x - buttonRed.width / 2,
                     buttonRed.y + buttonRed.height * buttonRed.scaleY / 4
             )
+            blackTextFont.draw(
+                    batch,
+                    "Weapons",
+                    buttonGreen.x - buttonGreen.width / 2,
+                    buttonGreen.y + buttonGreen.height * buttonGreen.scaleY / 4
+            )
 
             whiteTextFont.draw(
                     batch,
@@ -136,9 +136,11 @@ class MainMenu(val game: Game) : Stage(StretchViewport(
         if(buttonBlue.boundingRectangle.contains(pointX, pointY)){
             game.setStage(GameStage(game))
         }
-
         else if(buttonRed.boundingRectangle.contains(pointX, pointY)){
             game.setStage(SkinStage(game))
+        }
+        else if(buttonGreen.boundingRectangle.contains(pointX, pointY)){
+            game.setStage(WeaponShop(game))
         }
 
         return super.touchDown(screenX, screenY, pointer, button)

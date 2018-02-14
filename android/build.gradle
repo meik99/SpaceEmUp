@@ -21,7 +21,7 @@ android {
         applicationId "com.rynkbit.games.spaceemup"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 2
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {

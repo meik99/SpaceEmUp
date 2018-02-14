@@ -30,13 +30,16 @@ object SkinMap{
             for((index, color) in colors.withIndex()){
                 val skinBuilder = SkinBuilder()
                 _skins.add(skinBuilder
-                        .setName(color.capitalize())
-                        .setValue(i*index*500)
+                        .setName("${color.capitalize()} $i")
+                        .setValue(i*(index+1)*500)
                         .setTexture(getFileName(i, color))
-                        .setBought(i*index == 0)
+                        .setBought(false)
                         .build())
             }
         }
+
+        _skins.first().bought = true
+        _skins.first().value = 0
     }
 
     private fun getFileName(index: Int, color: String): String{

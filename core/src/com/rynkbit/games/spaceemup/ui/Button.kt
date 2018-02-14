@@ -11,34 +11,23 @@ import com.rynkbit.games.spaceemup.data.FontMap
 import com.rynkbit.games.spaceemup.entity.SpriteActor
 
 class Button(texture: Texture): SpriteActor(texture){
+    companion object {
+        val buttonBlueTexture = Texture("UI/buttonBlue.png")
+        val buttonGreenTexture = Texture("UI/buttonGreen.png")
+        val buttonYellowTexture = Texture("UI/buttonYellow.png")
+        val buttonRedTexture = Texture("UI/buttonRed.png")
+    }
+
     var text: String = ""
         set(value) {
-            glyphLayout.setText(font, value)
+            glyphLayout = GlyphLayout(font, value)
             field = value
         }
-
-//    var parameterSize
-//        set(value) {
-//            parameter.size = value
-//            font = generator.generateFont(parameter)
-//            glyphLayout.setText(font, text)
-//        }
-//        get() = parameter.size
-//
-//    var parameterColor: Color
-//        set(value) {
-//            parameter.color = value
-//            font = generator.generateFont(parameter)
-//        }
-//        get() = parameter.color
 
     var textOffset: Int = 20
 
     private var font: BitmapFont
     private var glyphLayout: GlyphLayout = GlyphLayout()
-
-    private val parameter: FreeTypeFontGenerator.FreeTypeFontParameter =
-            FreeTypeFontGenerator.FreeTypeFontParameter()
 
     init {
         font = FontMap.blackTextFont
@@ -54,7 +43,7 @@ class Button(texture: Texture): SpriteActor(texture){
                     batch,
                     glyphLayout,
                     x + textOffset,
-                    y + height * scaleY / 2 + glyphLayout.height / 2
+                    y + height * scaleY / 2 - glyphLayout.height / 2 + 10
             )
         }
     }

@@ -16,6 +16,7 @@ import com.rynkbit.games.spaceemup.skin.SkinMap;
 import com.rynkbit.games.spaceemup.stages.GameStage;
 import com.rynkbit.games.spaceemup.stages.MainMenu;
 import com.rynkbit.games.spaceemup.stages.SkinStage;
+import com.rynkbit.games.spaceemup.stages.WeaponShop;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -41,6 +42,12 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 
+		for(int i = 0; i < MemoryStorage.INSTANCE.getFireBought().length; i++){
+			MemoryStorage.INSTANCE.getFireBought()[i] =
+					preferences.getBoolean("laser" + i);
+		}
+
+//		MemoryStorage.INSTANCE.setMoney(10000);
 		spriteBatch = new SpriteBatch();
 		stage = new MainMenu(this);
 		background = new Background();
@@ -77,6 +84,9 @@ public class Game extends ApplicationAdapter {
 
 		for (Skin skin : SkinMap.INSTANCE.getSkins()){
 			preferences.putBoolean(skin.getSkinName(), skin.getBought());
+		}
+		for(int i = 0; i < MemoryStorage.INSTANCE.getFireBought().length; i++){
+			preferences.putBoolean("laser" + i, MemoryStorage.INSTANCE.getFireBought()[i]);
 		}
 
 		preferences.flush();

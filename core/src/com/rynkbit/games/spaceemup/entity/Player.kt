@@ -8,11 +8,14 @@ import com.rynkbit.games.spaceemup.animation.Explosion
 import com.rynkbit.games.spaceemup.data.MemoryStorage
 import com.rynkbit.games.spaceemup.entity.laser.Laser
 import com.rynkbit.games.spaceemup.entity.laser.PlayerLaser
+import com.rynkbit.games.spaceemup.entity.laser.fire.*
 import java.util.*
 
 class Player() : ShootableEntity(Texture("playerShip1_green.png"), Explosion()) {
     private val laser: MutableList<Laser>
     private val laserSound: Sound
+    var mute: Boolean = false
+    var laserGenerator: LaserGenerator = MemoryStorage.laserGenerator
 
     private var date: Date = Date()
 
@@ -32,24 +35,18 @@ class Player() : ShootableEntity(Texture("playerShip1_green.png"), Explosion()) 
             y = (stage.camera.viewportHeight / 3)
         }
 
-        if(Date().time - date.time >= 300 && alive == true){
-            val laserUp = PlayerLaser()
-            val laserDown = PlayerLaser()
+        if(Date().time - date.time >= laserGenerator.timeToShoot && alive == true){
+            val lasers = laserGenerator.generate(this)
+            laser.addAll(lasers)
 
-            laserUp.x = x + width
-            laserDown.x = x + width
-
-            laserUp.y = y - 40
-            laserDown.y = y + height - 20
-
-            laser.addAll(arrayOf(laserDown, laserUp))
-
-            stage.addActor(laserUp)
-            stage.addActor(laserDown)
+            for(laser in lasers){
+                stage.addActor(laser)
+            }
 
             date = Date()
 
-            laserSound.play(0.2.toFloat())
+            if(mute == false)
+                laserSound.play(0.2.toFloat())
         }
 
         laser.removeAll { element ->

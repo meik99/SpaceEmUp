@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.rynkbit.games.spaceemup.animation.Explosion
 import com.rynkbit.games.spaceemup.entity.laser.EnemyLaser
 import com.rynkbit.games.spaceemup.entity.laser.Laser
+import com.rynkbit.games.spaceemup.entity.laser.fire.DoubleFire
+import com.rynkbit.games.spaceemup.entity.laser.fire.LaserGenerator
+import com.rynkbit.games.spaceemup.entity.laser.fire.SingleFire
+import com.rynkbit.games.spaceemup.entity.laser.fire.TripleFire
 import com.rynkbit.games.spaceemup.entity.movement.Movement
 import com.rynkbit.games.spaceemup.entity.movement.Straight
 import java.util.*
@@ -18,12 +22,10 @@ open class Enemy(texture: String = "Enemies/enemyRed1.png") : ShootableEntity(Te
     val explosion: Explosion
 
     var moneyValue: Int
-
     var date: Date = Date()
-
     var time: Double
-
     var movement: Movement
+    var laserGenerator: LaserGenerator = SingleFire()
 
     init {
         alive = true
@@ -47,14 +49,14 @@ open class Enemy(texture: String = "Enemies/enemyRed1.png") : ShootableEntity(Te
         time += delta
 
         if(dateNow.time - date.time >= 800 && alive == true){
-            val shot = EnemyLaser()
 
-            shot.x = x
-            shot.y = y + height / 3
-            shot.time += time
+            val shots = laserGenerator.generate(this)
+            laser.addAll(shots)
 
-            laser.add(shot)
-            stage.addActor(shot)
+            for(shot in shots){
+                shot.time += time
+                stage.addActor(shot)
+            }
 
             date = Date()
 

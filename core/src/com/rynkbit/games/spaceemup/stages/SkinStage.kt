@@ -35,7 +35,7 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
         whiteTextFont = FontMap.whiteTextFont
 
         for ((index, skin) in SkinMap.skins.withIndex()){
-            val button: Button = Button(Texture("UI/buttonBlue.png"))
+            val button: Button = Button(Button.buttonBlueTexture)
 
             button.text =
                     if (skin.bought == true)
@@ -45,15 +45,17 @@ class SkinStage(val game: Game) : Stage(StretchViewport(GameParams.VIEWPORT_WIDT
                             "Selected"
                     else
                         String.format(Locale.ENGLISH, "%d", skin.value)
+            button.textOffset= -90
             button.y = camera.viewportHeight / 3
-            button.width = button.sprite.width * 2.toFloat()
-            button.height = button.sprite.height * 2.toFloat()
-            button.x = 20 + 20*index + button.width * index
+//            button.width = button.sprite.width * 2.toFloat()
+//            button.height = button.sprite.height * 2.toFloat()
+            button.scaleBy(1.toFloat(), 1.5.toFloat())
+            button.x = 20 + 20*index + button.width*index + button.sprite.width * index
 
             if(skin.scaleX == 1.toFloat() && skin.scaleY == 1.toFloat())
                 skin.scaleBy(1.5.toFloat())
 
-            skin.x = button.x + 110
+            skin.x = button.x + 50
             skin.y = button.y +
                     button.height * button.scaleY +
                     skin.height / 2 * skin.scaleY
